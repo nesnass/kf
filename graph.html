@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+  </head>
+
+  <body>
+    <svg class="graph"></svg>
+  </body>
+
+  <script>
+    // URL: https://beta.observablehq.com/@mbostock/disjoint-force-directed-graph
+    // Title: Disjoint Force-Directed Graph
+    // Author: Mike Bostock (@mbostock)
+    // Version: 127
+    // Runtime version: 1
+
+    const getRawData = async () => {
+      return await fetch("http://localhost:3000/rawData", {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        }
+      }).then( response => response.json());
+    }
+
+    const getPythonData = async () => {
+      return await fetch("http://localhost:3000/pythonData", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify({
+          text1: "The first text",
+          text2: "A second text"
+        })
+      }).then( response => response.json());
+    };
+
+    const drawChart = (
+      data,
+      forceSimulation,
+      width,
+      height,
+      color,
+      drag
+    ) => {
+      const links = data.links.map(d => Object.create(d));
+      const nodes = data.nodes.map(d => Object.create(d));
+
+      function ticked() {
+        link
+          .attr("x1", d => d.source.x)
+          .attr("y1", d => d.source.y)
+          .attr("x2", d => d.target.x)
+          .attr("y2", d => d.target.y);
+
+        node.attr("cx", d => d.x).attr("cy", d => d.y);
+      }
+
+      const simulation = forceSimulation(nodes, links).on("tick", ticked);
+
+      const svg = d3
+        .select('.graph')
+        .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+      const link = svg
+        .append("g")
+        .attr("stroke", "#999")
+        .attr("stroke-opacity", 0.6)
+        .selectAll("line")
+        .data(links)
+        .enter()
+        .append("line")
+        .attr("stroke-width", d => Math.sqrt(d.value));
+
+      const node = svg
+        .append("g")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5)
+        .selectAll("circle")
+        .data(nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("fill", color)
+        .call(drag(simulation));
+
+      node.append("title").text(d => d.id);
+
+      return svg.node();
+    };
+
+    const forceSimulation = (nodes, links) => {
+      return d3
+        .forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id))
+        .force("charge", d3.forceManyBody())
+        .force("x", d3.forceX())
+        .force("y", d3.forceY());
+    };
+
+    const height = 1000;
+    const width = 1000;
+
+    const color = d => {
+      const scale = d3.scaleOrdinal(d3.schemeCategory10);
+      return scale(d.group);
+    };
+
+    const drag = () => {
+      return simulation => {
+        function dragstarted(d) {
+          if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        }
+
+        function dragged(d) {
+          d.fx = d3.event.x;
+          d.fy = d3.event.y;
+        }
+
+        function dragended(d) {
+          if (!d3.event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        }
+
+        return d3
+          .drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended);
+      };
+    };
+
+    const start = async () => {
+      // getPythonData().then(data => drawChart(data, forceSimulation, width, height, color, drag));
+      getRawData().then(data => drawChart(data, forceSimulation, width, height, color, drag));
+    }
+
+    start();
+
+
+  </script>
+</html>
