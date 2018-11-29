@@ -1,0 +1,92 @@
+{
+"name": "similarities",
+"children": [
+    {
+      "name": "theme0",
+      "children": [
+        {
+          "name": "Note 1",
+          "size": 3938
+        },
+        {
+          "name": "Note 2",
+          "size": 3812
+        },
+        {
+          "name": "Note 3",
+          "size": 6714
+        },
+        {
+          "name": "Note 4",
+          "size": 743
+        }
+      ]
+    },
+    {
+      "name": "theme1",
+      "children": [
+        {
+          "name": "Note 14",
+          "size": 3534
+        },
+        {
+          "name": "Note 15",
+          "size": 5731
+        },
+        {
+          "name": "Note 16",
+          "size": 7840
+        },
+        {
+          "name": "Note 17",
+          "size": 5914
+        },
+        {
+          "name": "Note 18",
+          "size": 3416
+        }
+      ]
+    },
+    {
+      "name": "theme2",
+      "children": [
+        {
+          "name": "Note 5",
+          "size": 1983
+        },
+        {
+          "name": "Note 6",
+          "size": 2047
+        },
+        {
+          "name": "Note 7",
+          "size": 1375
+        },
+        {
+          "name": "Note 8",
+          "size": 8746
+        },
+        {
+          "name": "Note 9",
+          "size": 2202
+        },
+        {
+          "name": "Note 10",
+          "size": 1382
+        },
+        {
+          "name": "Note 11",
+          "size": 1629
+        },
+        {
+          "name": "Note 12",
+          "size": 1675
+        },
+        {
+          "name": "Note 13",
+          "size": 2042
+        }
+      ]
+    }
+  ]
+}

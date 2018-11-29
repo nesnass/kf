@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const data1 = require('./data1.json');
+const pythonScripts = require('./pythonScripts');
 
 const app = express();
 
@@ -13,22 +13,20 @@ app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
 
-const pythonData = (req, res) => {
-    const spawn = require('child_process').spawn;
+// Call a Python script supplying POST data in request body e.g. 'script/test1'
+app.post('/script/:scriptname', (req, res) => {
+  const scriptname = req.params.scriptname;
+  pythonScripts[scriptname](req, res);
+})
 
-    const process = spawn('python', ['./test.py', req.body.text1, req.body.text2]);
-    process.stdout.on('data', data => {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(data).end();
-    });
-}
+// Request raw data JSON type e.g. 'data/data1.json'
+app.get('/data/:filename', (req, res) => {
+  const n = req.params.filename;
+  res.sendFile(n, {root: __dirname + '/data/' })
+})
 
-const rawData = (req, res) => {
-  res.send(data1).end();
-}
-
-app.post('/pythonData', pythonData);
-app.get('/rawData', rawData);
-app.get('/graph', (req, res) => {
-  res.sendFile('graph.html', {root: __dirname })
+// Request a graph type e.g. 'graph/dendogram.html'
+app.get('/graph/:graphname', (req, res) => {
+  const n = req.params.graphname;
+  res.sendFile(n, {root: __dirname + '/graphs/' })
 })
