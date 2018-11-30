@@ -1,0 +1,8 @@
+-Use a platform to retrieve ideas from the users. For instance, you can vote on ideas and use the user as a developer. Open source tools may also be available for this. This gives you insight into what users really want. Now we can write an email, but that mainly causes delayed communication. With a platform you ensure that everyone can respond to an idea to work it out further. For example: https://microsoftteams.uservoice.com/forums/555103-public
+- Put the code on GitHub. This is a platform for sharing code and asking programmers to provide input and build bugs and features of your solution in an agile way.
+- Ensure that the domain has a ssl certificate attached to the domain. This is about pure security of the platform on which you work. Chances are that user names and passwords can be read without encryption.
+- Buy a domain name for a few euros or request a subdomain (kf.aeres.nl). A subdomain would be good to have it forwarded to the relevant IP address. I can also imagine that you want to run the KF software on your own server.
+- Provide an OTAP street (Development, Test, Acceptance and Production) The developers will know this, the point is that you first want to test the software before making it available to the end users.
+We will probably drink a cup of coffee again!
+Greeting,
+Jan Willem
