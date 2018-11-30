@@ -1,5 +1,5 @@
-"Define the hierarchy of tools.
+Define the hierarchy of tools.
 Add a selector for the user to define if the information displayed is related to all members of the community or to a specific member.
 Separate the daily and comulative graphs.
 Add a second date range control, so users can compare two date ranges.
-Add support for the user to customize their dashboard qwith their favourite tools."
+Add support for the user to customize their dashboard qwith their favourite tools.
