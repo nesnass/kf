@@ -126,14 +126,14 @@
           .padding(3)(root);
       };
 
-      const subDataroot = pack(data);
+      const root = pack(data);
       const subData = data.children.map(child => pack(child));
-      const outerData = inputData.
 
       /* const diagonal = d3.svg.diagonal().projection(function(d) {
         return [d.y, d.x];
       }); */
-
+      
+      /*
       var outerNodes = svg
         .selectAll("g.outer")
         .data(outerData, function(d) {
@@ -152,6 +152,7 @@
         .style("fill", "pink")
         .style("stroke", "blue")
         .attr("r", 40);
+      */
 
       const svg = d3
         .select("body")
@@ -166,7 +167,7 @@
       const node = svg
         .selectAll("g")
         .selectAll("g")
-        .data(subData.descendants())
+        .data(root.descendants())
         .enter()
         .append("g")
         .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);

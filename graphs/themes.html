@@ -138,12 +138,24 @@
         .style("height", "auto")
         .attr("text-anchor", "middle");
 
+      const translateThemes = d => {
+        let x = d.x;
+        let y = d.y;
+        const depth = d.depth;
+        if (depth > 0) {
+          const xyIndex = depth === 1 ? d.data.name.slice(-1) : d.parent.data.name.slice(-1);
+          x = inputData.prepared_data.x[xyIndex] * 1000;
+          y = inputData.prepared_data.y[xyIndex] * 1000;
+        }
+        return `translate(${x + 1},${y + 1})`;
+      }
+
       const node = svg
         .selectAll("g")
         .data(root.descendants())
         .enter()
         .append("g")
-        .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);
+        .attr("transform", d => translateThemes(d));
 
       node
         .append(function(d) {
