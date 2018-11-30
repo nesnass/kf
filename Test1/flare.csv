@@ -1,0 +1,7 @@
+id,value
+flare,
+flare.AgglomerativeCluster,10
+flare.CommunityStructure,10
+flare.HierarchicalCluster,10
+flare.MergeEdge,10
+flare.graph
