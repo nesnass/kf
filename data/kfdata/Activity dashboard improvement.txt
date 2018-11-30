@@ -1,0 +1,5 @@
+"Include co-authors in counts
+Include information on co-authors in table
+Filter also by type of note: build-on vs. new note vs. rise-above
+Filter by view, with the option to select multiple views.
+View notes read by user (independently of how many times, just know if the note was read at some point)"

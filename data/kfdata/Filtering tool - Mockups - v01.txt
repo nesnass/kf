@@ -1,0 +1,3 @@
+"The goal is to help users to easily ""declutter"" and ""clean"" views with to many contributions. The contributions are not deleted or removed, but temporarily ""hidden"", so the view only shows the notes that match the criteria defined through the filters.
+In the above example, the view would only show contributions that use the ""This theory cannot explain"" and/or ""I need to understand"", and have the keywords ""physics"", ""Newtonian laws"" and/or ""thermodynamic"", and are Notes or Build Ons.
+One potential collateral advantage may be an increase of the usage of scaffolds and keywords, since they are now more useful to the writer itself that can later use them to clean their own view."
