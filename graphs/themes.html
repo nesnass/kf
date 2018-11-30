@@ -16,7 +16,9 @@
             fill: green;
             opacity: 0.3;
         }
-        
+        .sliders {
+          position: fixed;
+        }
         .wrapword {
             white-space: -moz-pre-wrap !important;
             /* Mozilla, since 1999 */
@@ -36,7 +38,27 @@
     </style>
 </head>
 
-<body></body>
+<body>
+  <div class="sliders">
+    <p>
+      <label 
+        for="nRadius" 
+        style="display: inline-block; width: 240px; text-align: right">
+        radius = <span id="nRadius-value">…</span>
+      </label>
+      <input type="range" min="1" max="100" id="nRadius" value="30">
+    </p>
+    <p>
+        <label 
+          for="nScale" 
+          style="display: inline-block; width: 240px; text-align: right">
+          scale = <span id="nScale-value">…</span>
+        </label>
+        <input type="range" min="1" max="2000" id="nScale" value="1000">
+      </p>
+  </div>
+    <svg></svg>
+</body>
 
 <script>
     // URL: https://beta.observablehq.com/@mbostock/disjoint-force-directed-graph
@@ -44,6 +66,40 @@
     // Author: Mike Bostock (@mbostock)
     // Version: 127
     // Runtime version: 1
+
+    let inputData;
+    let radiusData = 30;
+    let scaleData = 1000;
+
+    function updateRadius(nRadius) {
+      // adjust the text on the range slider
+      d3.select("#nRadius-value").text(nRadius);
+      d3.select("#nRadius").property("value", nRadius);
+      radiusData = nRadius;
+      drawChart();
+      // update the circle radius
+      // holder.selectAll("circle") 
+      //  .attr("r", nRadius);
+    }
+
+    function updateScale(nScale) {
+      // adjust the text on the range slider
+      d3.select("#nScale-value").text(nScale);
+      d3.select("#nScale").property("value", nScale);
+      scaleData = nScale;
+      drawChart();
+      // update the circle radius
+      // holder.selectAll("circle") 
+      //  .attr("r", nRadius);
+    }
+
+    // when the input range changes update the circle 
+    d3.select("#nRadius").on("input", function() {
+      updateRadius(+this.value);
+    });
+    d3.select("#nScale").on("input", function() {
+      updateScale(+this.value);
+    });
 
     const getRawData = async() => {
         return await fetch("http://localhost:3000/data/dendogramData.json", {
@@ -112,10 +168,13 @@
         return data;
     }
 
-    const drawChart = inputData => {
+    const drawChart = () => {
       const width = 1000;
       const height = 1000;
       // const themeCount = data.prepared_data.topics.length;
+
+      // Clear the existing graph
+      d3.select("svg").selectAll("*").remove();
 
       const topicCount = inputData.prepared_data.topics.length;
       let data = formatData(inputData, topicCount);
@@ -133,7 +192,7 @@
         return d3
           .pack()
           .size([width - 2, height - 2])
-          .radius(function(d) { return 30; })
+          .radius(function(d) { return radiusData; })
           .padding(3)(root);
       };
 
@@ -144,8 +203,7 @@
         }); */
 
         const svg = d3
-            .select("body")
-            .append("svg")
+            .select("svg")
             .attr("width", width)
             .attr("height", height)
             .style("font", "10px sans-serif")
@@ -163,8 +221,8 @@
               let y = 0;
               let index = (d.depth === 2 && d.x && d.y) ? d.parent.data.name.slice(-1) : d.data.name.slice(-1);
               index = d.depth === 0 ? undefined : index;
-              x = index ? inputData.prepared_data.x[index] * 1500 : 0;
-              y = index ? inputData.prepared_data.y[index] * 1500 : 0;
+              x = index ? inputData.prepared_data.x[index] * scaleData : 0;
+              y = index ? inputData.prepared_data.y[index] * scaleData : 0;
               return `translate(${d.x + x},${d.y + y})`;
             });
 
@@ -215,8 +273,11 @@
     };
 
     const start = async() => {
-        // getPythonData().then(data => drawChart(data, forceSimulation, width, height, color, drag));
-        getPythonData().then(data => drawChart(data));
+      // getPythonData().then(data => drawChart(data, forceSimulation, width, height, color, drag));
+      getPythonData().then(data => {
+        inputData = data;
+        drawChart();
+      });
     };
 
     start();

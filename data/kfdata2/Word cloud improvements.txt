@@ -1,0 +1,4 @@
+Easily add or edit the stop words
+Filter by view(s)
+Filter by user(s) or group(s)
+Hover over word to see contexts in which it is used

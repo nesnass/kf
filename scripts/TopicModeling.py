@@ -116,14 +116,14 @@ def getDocumentsPerTopic(listOfNameFiles, topicModel, matrixTF):
         dataFrameFileNameAndTopics = pd.DataFrame(data = topicsAndDocuments,columns=['NameDocument','Topic'])
     return dataFrameFileNameAndTopics
 
-list_names = glob.glob('./data/simpletext/*.txt')
+list_names = glob.glob('./data/kfdata2/*.txt')
 rawNotes = readAllFiles(list_names)
 allNounsOfBooks = []
 for book in rawNotes:
     allNounsOfBooks.append(getNounsFromFile(book))
 
 nounBooksFusionedString = fitAllLemmataInOneString(allNounsOfBooks)
-[nmfNoun,tfidMatrixNoun, tfidfVectorizerNoun] =setLDAParametters(50, 6,nounBooksFusionedString)
+[nmfNoun,tfidMatrixNoun, tfidfVectorizerNoun] =setLDAParametters(1000, 6, nounBooksFusionedString)
 nmfNoun.n_components_
 nmfNoun.components_
 

@@ -1,0 +1,28 @@
+To give some initial reactions. In my opinion, do we not use the learning analytics in the study program (with students)? Do teachers use these 'at the back'? And if not: what would you like to be able to get out of here as a teacher? We may be able to make an inventory.
+
+I ??also wonder how we get involved in the kc dialogue between the meetings (compare work plans herein). I think that is now done by reading in the notes. Could the use of a certain 'learning analytic' be supportive in this (as in: fast, efficient, yielding meaningful information)
+
+As far as 'user interface' is concerned, the first question that arises: what exactly is a 'user interface'? I think of what it looks like and what the possibilities are in use. But I'm not sure if that is it. Who will help me with this?
+
+And as far as that user interface is concerned, I still miss the 'look and feel' as 'present-day environments' have, like the environments in Microsoft Office (OneNote , Teams) and also the social media channels. Specific examples for me are: *) chat function, fast conversations, *) at a glance all contributions visible, also the way in which is built (and not double click per contribution to open it, *) work on one product within the environment, where it becomes clear what the different contributions are from everyone
+
+And I also wonder: what makes, in the eyes of these designers, that it is necessary to have a Knowledge Forum, look at the extensive functionalities that exist within Microsoft Teams or OneNote and within Google Docs now. Where is the real added value? It seems to me that the original added value (I think that is: being able to build on each other with texts) has now been filled in by other environments. If that added value is clear, it can also help with discussions about this.
+The learning analytics are now, as far as I know, a separate component in the Knowlegde Forum. You feel that you end up in a different page  environment. (but I'm not sure, because not used for a while). Getting it into a different environment does not help in my use. And in doing so, I also lean on another idea, namely the idea that 'analysis of learning' (learning analytic) is an activity that is 'about' the creation of knowledge and not the (process of) knowledge creation itself. And that it is therefore nice to have a conscious choice to (or) be in the process of knowledge creation, or to do an analysis about the same process.
+
+I would like analysis on (good) moves per contribution. With that we have done something in theme Iit. And I realize that you can look at the scaffolds. But the scaffolds are too coarse as they are now
+
+By looking at moves you expose how you think  build together
+
+About scaffolds I have something to mind: as they are now, you have to put them in as an author. You scaffold for the reader. My idea: could there be an option where you can click in a note or transcendence and that there will be scaffolds for the writer, eg:
+What I have read or seen is:
+....
+What my idea is, is ...
+I think what adds my idea to our idea is ...
+Then you experience some help as a writer.
+
+Indeed, I also think that more guidance on the scaffolds could help enormously. In addition, I also think that there could be more aturing on the good moves. For example, by being able to make the deadlines for certain steps as a teacher, so that the whole group can take a critical look at the next step. A time slot function would help then I think
+
+Another idea: kf is very linguistic ... you can post movies but not directly. A feature that enables you to turn on your laptop camera and record a note as a video or sound clip would be cool and faster ...
+
+Good morning, here is my additional word in the bag regarding KF. 1) I would consider it of added value if KF could be opened via an LTI link in the LMS (later on Canvas). Ideally, this would mean that the extra login disappears and students do not have to go to a separate web page. 2) In Facebook (jaja) is at the top of a button with 'new notifications' at the top of the screen. When you stand there you see at a glance how many and which activities you missed. Seems like a nice entry and more clear than the colors. 3) KF is a lot of product (knowledge development), and little process, while at that level a lot is also happening among students (doubt, threshold overcome, proud of building, long lasting etc ...). Would it help if they can also share that? To stay in the social media: instastories - a separate framework in the screen next to the knowledge dialog specifically for that process.
+
