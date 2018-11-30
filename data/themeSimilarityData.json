@@ -1,0 +1,17 @@
+{
+  "theme0": {
+    "theme0": 1,
+    "theme1": 0.5,
+    "theme2": 0.9
+  },
+  "theme1": {
+    "theme0": 0.5,
+    "theme1": 1,
+    "theme2": 0.9
+  },
+  "theme2": {
+    "theme0": 0.9,
+    "theme1": 0.5,
+    "theme2": 1
+  }
+}
