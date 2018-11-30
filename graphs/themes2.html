@@ -15,11 +15,11 @@
         opacity: 0.3;
       }
       .wrapword {
-        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-        white-space: -pre-wrap;      /* Opera 4-6 */
-        white-space: -o-pre-wrap;    /* Opera 7 */
-        white-space: pre-wrap;       /* css-3 */
-        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: pre-wrap; /* css-3 */
+        word-wrap: break-word; /* Internet Explorer 5.5+ */
         white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
         word-break: break-all;
         white-space: normal;
@@ -58,21 +58,20 @@
       }).then(response => {
         const r = response.json();
         return r;
-      })
+      });
     };
 
     const formatData = (inputData, topicCount) => {
-
       const getThemeChildren = topicData => {
         let children = [];
         for (let i = 0; i < topicData.length; i += 1) {
-          children.push({ name: topicData[i], size: 200 })
+          children.push({ name: topicData[i], size: 200 });
         }
         return children;
-      }
+      };
 
       let data = {
-        name: 'Theme and Note Similarity',
+        name: "Theme and Note Similarity",
         children: []
       };
 
@@ -90,12 +89,15 @@
 
       // Convert dictionary to D3 heirarchy structure
       for (let i = 0; i < topicCount; i += 1) {
-        const name = 'Topic' + i;
-        data.children.push( { name, children: getThemeChildren(themesWithNames[i]) });
+        const name = "Topic" + i;
+        data.children.push({
+          name,
+          children: getThemeChildren(themesWithNames[i])
+        });
       }
 
       return data;
-    }
+    };
 
     const drawChart = inputData => {
       const width = 600;
@@ -118,15 +120,38 @@
         return d3
           .pack()
           .size([width - 2, height - 2])
-          .radius(function(d) { return 50; })
+          .radius(function(d) {
+            return 50;
+          })
           .padding(3)(root);
       };
 
-      const root = pack(data);
+      const subDataroot = pack(data);
+      const subData = data.children.map(child => pack(child));
+      const outerData = inputData.
 
       /* const diagonal = d3.svg.diagonal().projection(function(d) {
         return [d.y, d.x];
       }); */
+
+      var outerNodes = svg
+        .selectAll("g.outer")
+        .data(outerData, function(d) {
+          return d.id;
+        })
+        .enter()
+        .append("g")
+        .attr("class", "outer")
+        .attr("id", function(d) {
+          return d.id;
+        })
+        .call(outerLayout.drag());
+
+      outerNodes
+        .append("circle")
+        .style("fill", "pink")
+        .style("stroke", "blue")
+        .attr("r", 40);
 
       const svg = d3
         .select("body")
@@ -140,7 +165,8 @@
 
       const node = svg
         .selectAll("g")
-        .data(root.descendants())
+        .selectAll("g")
+        .data(subData.descendants())
         .enter()
         .append("g")
         .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);
@@ -150,7 +176,7 @@
           const elName = d.depth === 0 ? "rect" : "circle";
           return document.createElementNS(d3.namespaces.svg, elName);
         })
-        .attr("class", d => (d.depth === 1 ? 'theme-item' : 'note-item'))
+        .attr("class", d => (d.depth === 1 ? "theme-item" : "note-item"))
         .attr("r", d => d.r)
         .attr("fill", d => color(d.height));
 
@@ -178,7 +204,7 @@
         .append("tspan")
         .attr("x", 0)
         .attr("y", (d, i, nodes) => `${i - nodes.length / 2 + 0.8}em`)
-        .attr("class", 'wrapword')
+        .attr("class", "wrapword")
         .text(d => d);
 
       node.append("title").text(
