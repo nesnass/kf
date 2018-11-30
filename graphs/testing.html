@@ -40,6 +40,28 @@ circle {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
   <script src="leader-line.js"></script>
   <script>
+
+
+ 
+/* const getData = await getPythonData;
+console.log(getData); */
+
+const getPythonData = () => {
+  fetch("http://localhost:3000/script/topicModelling", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify({
+          text1: "The first text",
+          text2: "A second text"
+        })
+      }).then(response => response.json()).then(data => {
+        popuplateGraph(data);
+      })
+}
+
+
 var data = {
   "name": "ThemeA",
   "children": [
@@ -69,8 +91,30 @@ rootNode.sum(function(d) {
 });
 
 packLayout(rootNode);
+getPythonData();
+const popuplateGraph = (data) => {
+  
+  const topics = data.topics;
+  const coordinates = data.prepared_data;
+  let arrayJson = [];
+  for(i = 0; i < coordinates.topics.length; i++){
+    arrayJson.push({
+      "name": "Theme"+i,
+      "children": [],
+    });
+  }
 
-d3.select('#a1 g')
+  let json = {};
+  for (var key in topics.Topic) {
+        console.log(key + " -> " + topics.Topic[key]);
+       /*  arrayJson[topics.Topic[key]] */
+ }
+/*   for(i = 0; i < topics.Topic.length; i++){
+    console.log(topics.Topic[i]);
+  } */
+  console.log(arrayJson);
+}
+/* d3.select('#a1 g')
   .selectAll('circle')
   .data(rootNode.descendants())
   .enter()
@@ -112,7 +156,7 @@ d3.select('#a3 g')
       startPlug: 'disc',
       endPlug: 'disc'
       }
-);
+); */
 
   </script>
 </body>
