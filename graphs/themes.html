@@ -14,6 +14,16 @@
         fill: green;
         opacity: 0.3;
       }
+      .wrapword {
+        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        white-space: pre-wrap;       /* css-3 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+        word-break: break-all;
+        white-space: normal;
+      }
     </style>
   </head>
 
@@ -51,23 +61,38 @@
       })
     };
 
-    const formatData = inputData => {
+    const formatData = (inputData, topicCount) => {
+
+      const getThemeChildren = topicData => {
+        let children = [];
+        for (let i = 0; i < topicData.length; i += 1) {
+          children.push({ name: topicData[i], size: 200 })
+        }
+        return children;
+      }
+
       let data = {
         name: 'Theme and Note Similarity',
         children: []
       };
 
       let themesWithNames = {};
+      for (let i = 0; i < topicCount; i += 1) {
+        themesWithNames[i] = [];
+      }
 
       // Dictionary to organise documents by theme
       const nameKeys = Object.keys(inputData.topics.NameDocument);
       nameKeys.forEach(key => {
         const topicNumber = inputData.topics.Topic[key];
-        themesWithNames[topicNumber] = inputData.topics.NameDocument[key];
+        themesWithNames[topicNumber].push(inputData.topics.NameDocument[key]);
       });
 
       // Convert dictionary to D3 heirarchy structure
-
+      for (let i = 0; i < topicCount; i += 1) {
+        const name = 'Topic' + i;
+        data.children.push( { name, children: getThemeChildren(themesWithNames[i]) });
+      }
 
       return data;
     }
@@ -77,7 +102,8 @@
       const height = 600;
       // const themeCount = data.prepared_data.topics.length;
 
-      let data = formatData(inputData);
+      const topicCount = inputData.prepared_data.topics.length;
+      let data = formatData(inputData, topicCount);
 
       const color = () => {
         return d3.scaleSequential(d3.interpolateMagma).domain([8, 0]);
@@ -92,6 +118,7 @@
         return d3
           .pack()
           .size([width - 2, height - 2])
+          .radius(function(d) { return 50; })
           .padding(3)(root);
       };
 
@@ -151,6 +178,7 @@
         .append("tspan")
         .attr("x", 0)
         .attr("y", (d, i, nodes) => `${i - nodes.length / 2 + 0.8}em`)
+        .attr("class", 'wrapword')
         .text(d => d);
 
       node.append("title").text(
