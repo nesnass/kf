@@ -51,9 +51,33 @@
       })
     };
 
-    const drawChart = data => {
-      var width = 600,
-        height = 600;
+    const formatData = inputData => {
+      let data = {
+        name: 'Theme and Note Similarity',
+        children: []
+      };
+
+      let themesWithNames = {};
+
+      // Dictionary to organise documents by theme
+      const nameKeys = Object.keys(inputData.topics.NameDocument);
+      nameKeys.forEach(key => {
+        const topicNumber = inputData.topics.Topic[key];
+        themesWithNames[topicNumber] = inputData.topics.NameDocument[key];
+      });
+
+      // Convert dictionary to D3 heirarchy structure
+
+
+      return data;
+    }
+
+    const drawChart = inputData => {
+      const width = 600;
+      const height = 600;
+      // const themeCount = data.prepared_data.topics.length;
+
+      let data = formatData(inputData);
 
       const color = () => {
         return d3.scaleSequential(d3.interpolateMagma).domain([8, 0]);
@@ -73,7 +97,7 @@
 
       const root = pack(data);
 
-      /* var diagonal = d3.svg.diagonal().projection(function(d) {
+      /* const diagonal = d3.svg.diagonal().projection(function(d) {
         return [d.y, d.x];
       }); */
 
