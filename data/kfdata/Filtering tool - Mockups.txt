@@ -1,2 +1,2 @@
-"The goal is to help users to easily ""declutter"" and ""clean"" views with to many contributions. The contributions are not deleted or removed, but temporarily ""hidden"", so the view only shows the notes that match the criteria defined through the filters.
-One collateral advantage may be a potential increase of the usage of scaffolds and keywords, since they are now more useful to the writer itself that can later use them as criteria for filter"
+The goal is to help users to easily declutter and clean views with to many contributions. The contributions are not deleted or removed, but temporarily hidden, so the view only shows the notes that match the criteria defined through the filters.
+One collateral advantage may be a potential increase of the usage of scaffolds and keywords, since they are now more useful to the writer itself that can later use them as criteria for filter

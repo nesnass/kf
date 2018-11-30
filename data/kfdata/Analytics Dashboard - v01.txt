@@ -1,2 +1,2 @@
-"This mockup shows an Analytical Dashboard that combines a number of the analytical tools that are currently accessed separately, through a list of links.
-By default, the user will see information regarding the whole community, all students, and the last seven days. All those criteria can be easily changed, so the dashboard may show, for example, information related to a specific view, a specific student, and/or any other date range."
+This mockup shows an Analytical Dashboard that combines a number of the analytical tools that are currently accessed separately, through a list of links.
+By default, the user will see information regarding the whole community, all students, and the last seven days. All those criteria can be easily changed, so the dashboard may show, for example, information related to a specific view, a specific student, andor any other date range.

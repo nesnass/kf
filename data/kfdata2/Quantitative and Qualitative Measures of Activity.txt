@@ -1,0 +1,1 @@
+Agreed with filters and need to integrate with ATK stats.However, given that quantitydoes not always correspond withquality of interaction, how can we take these behavioural measuresto the next level?

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <style>
+      circle {
+        fill: lightblue;
+        opacity: 1;
+        stroke: black;
+      }
+      .theme-item {
+        fill: green;
+        opacity: 0.3;
+      }
+      .wrapword {
+        white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: pre-wrap; /* css-3 */
+        word-wrap: break-word; /* Internet Explorer 5.5+ */
+        white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+        word-break: break-all;
+        white-space: normal;
+      }
+    </style>
+  </head>
+
+  <body></body>
+
+  <script>
+    // URL: https://beta.observablehq.com/@mbostock/disjoint-force-directed-graph
+    // Title: Disjoint Force-Directed Graph
+    // Author: Mike Bostock (@mbostock)
+    // Version: 127
+    // Runtime version: 1
+
+    const getRawData = async () => {
+      return await fetch("http://localhost:3000/data/dendogramData.json", {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        }
+      }).then(response => response.json());
+    };
+
+    const getPythonData = async () => {
+      return await fetch("http://localhost:3000/script/topicModelling", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify({
+          text1: "The first text",
+          text2: "A second text"
+        })
+      }).then(response => {
+        const r = response.json();
+        return r;
+      });
+    };
+
+    const formatData = (inputData, topicCount) => {
+      const getThemeChildren = topicData => {
+        let children = [];
+        for (let i = 0; i < topicData.length; i += 1) {
+          children.push({ name: topicData[i], size: 200 });
+        }
+        return children;
+      };
+
+      let data = {
+        name: "Theme and Note Similarity",
+        children: []
+      };
+
+      let themesWithNames = {};
+      for (let i = 0; i < topicCount; i += 1) {
+        themesWithNames[i] = [];
+      }
+
+      // Dictionary to organise documents by theme
+      const nameKeys = Object.keys(inputData.topics.NameDocument);
+      nameKeys.forEach(key => {
+        const topicNumber = inputData.topics.Topic[key];
+        themesWithNames[topicNumber].push(inputData.topics.NameDocument[key]);
+      });
+
+      // Convert dictionary to D3 heirarchy structure
+      for (let i = 0; i < topicCount; i += 1) {
+        const name = "Topic" + i;
+        data.children.push({
+          name,
+          children: getThemeChildren(themesWithNames[i])
+        });
+      }
+
+      return data;
+    };
+
+    const drawChart = inputData => {
+      const width = 600;
+      const height = 600;
+      // const themeCount = data.prepared_data.topics.length;
+
+      const topicCount = inputData.prepared_data.topics.length;
+      let data = formatData(inputData, topicCount);
+
+      const color = () => {
+        return d3.scaleSequential(d3.interpolateMagma).domain([8, 0]);
+      };
+      const format = () => d3.format(",d");
+
+      const pack = data => {
+        const root = d3
+          .hierarchy(data)
+          .sum(d => d.size)
+          .sort((a, b) => b.value - a.value);
+        return d3
+          .pack()
+          .size([width - 2, height - 2])
+          .radius(function(d) {
+            return 50;
+          })
+          .padding(3)(root);
+      };
+
+      const root = pack(data);
+      const subData = data.children.map(child => pack(child));
+
+      /* const diagonal = d3.svg.diagonal().projection(function(d) {
+        return [d.y, d.x];
+      }); */
+      
+      /*
+      var outerNodes = svg
+        .selectAll("g.outer")
+        .data(outerData, function(d) {
+          return d.id;
+        })
+        .enter()
+        .append("g")
+        .attr("class", "outer")
+        .attr("id", function(d) {
+          return d.id;
+        })
+        .call(outerLayout.drag());
+
+      outerNodes
+        .append("circle")
+        .style("fill", "pink")
+        .style("stroke", "blue")
+        .attr("r", 40);
+      */
+
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("font", "10px sans-serif")
+        .style("width", "100%")
+        .style("height", "auto")
+        .attr("text-anchor", "middle");
+
+      const node = svg
+        .selectAll("g")
+        .selectAll("g")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);
+
+      node
+        .append(function(d) {
+          const elName = d.depth === 0 ? "rect" : "circle";
+          return document.createElementNS(d3.namespaces.svg, elName);
+        })
+        .attr("class", d => (d.depth === 1 ? "theme-item" : "note-item"))
+        .attr("r", d => d.r)
+        .attr("fill", d => color(d.height));
+
+      const leaf = node.filter(d => !d.children);
+
+      leaf
+        .select("circle")
+        /* .classed("theme-item", function (d, i) {
+          return d.depth === 1;
+        }) */
+        .attr("stroke", "#000");
+
+      leaf
+        .append("clipPath")
+        // .attr("id", d => (d.clipUid = DOM.uid("clip")).id)
+        .append("use");
+      // .attr("xlink:href", d => d.leafUid.href);
+
+      leaf
+        .append("text")
+        .attr("clip-path", d => d.clipUid)
+        .selectAll("tspan")
+        .data(d => d.data.name.split(/(?=[A-Z][^A-Z])/g))
+        .enter()
+        .append("tspan")
+        .attr("x", 0)
+        .attr("y", (d, i, nodes) => `${i - nodes.length / 2 + 0.8}em`)
+        .attr("class", "wrapword")
+        .text(d => d);
+
+      node.append("title").text(
+        d =>
+          `${d
+            .ancestors()
+            .map(d => d.data.name)
+            .reverse()
+            .join("/")}\n${format(d.value)}`
+      );
+    };
+
+    const start = async () => {
+      // getPythonData().then(data => drawChart(data, forceSimulation, width, height, color, drag));
+      getPythonData().then(data => drawChart(data));
+    };
+
+    start();
+  </script>
+</html>

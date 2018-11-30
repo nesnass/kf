@@ -105,20 +105,6 @@ def setLDAParametters(nFeatures, nTopics,dataset):
     nmf.fit(tfidf)
     return [nmf,tfidf,tfidf_vectorizer]
 
-list_names = glob.glob('./data/simpletext/*.txt')
-rawNotes = readAllFiles(list_names)
-allNounsOfBooks = []
-for book in rawNotes:
-    allNounsOfBooks.append(getNounsFromFile(book))
-
-nounBooksFusionedString = fitAllLemmataInOneString(allNounsOfBooks)
-
-[nmfNoun,tfidMatrixNoun, tfidfVectorizerNoun] =setLDAParametters(50, 6,nounBooksFusionedString)
-
-nmfNoun.n_components_
-nmfNoun.components_
-preparedData = pyLDAvis.sklearn.prepare(nmfNoun,tfidMatrixNoun, tfidfVectorizerNoun)
-
 def getDocumentsPerTopic(listOfNameFiles, topicModel, matrixTF):
     topicsAndDocuments = []
     doc_topic = topicModel.transform(matrixTF)
@@ -129,6 +115,22 @@ def getDocumentsPerTopic(listOfNameFiles, topicModel, matrixTF):
         # print("doc: {} topic: {}\n".format(n,topic_most_pr))
         dataFrameFileNameAndTopics = pd.DataFrame(data = topicsAndDocuments,columns=['NameDocument','Topic'])
     return dataFrameFileNameAndTopics
+
+list_names = glob.glob('./data/kfdata2/*.txt')
+rawNotes = readAllFiles(list_names)
+allNounsOfBooks = []
+for book in rawNotes:
+    allNounsOfBooks.append(getNounsFromFile(book))
+
+nounBooksFusionedString = fitAllLemmataInOneString(allNounsOfBooks)
+[nmfNoun,tfidMatrixNoun, tfidfVectorizerNoun] =setLDAParametters(1000, 6, nounBooksFusionedString)
+nmfNoun.n_components_
+nmfNoun.components_
+
+try:
+  preparedData = pyLDAvis.sklearn.prepare(nmfNoun,tfidMatrixNoun, tfidfVectorizerNoun)
+except Exception as e:
+    print(e)
 
 nameFromReadFiles = [name.split('/')[3] for name in list_names]
 documentAndTopics = getDocumentsPerTopic(nameFromReadFiles,nmfNoun,tfidMatrixNoun)
