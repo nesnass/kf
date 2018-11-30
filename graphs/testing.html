@@ -86,8 +86,7 @@
                 }
 
                 var xmlns = "http://www.w3.org/2000/svg";
-                var boxWidth = 100;
-                var boxHeight = 100;
+
 
                 for (a = 0; a < arrayJson.length; a++) {
                     rootNode = d3.hierarchy(arrayJson[a]);
@@ -97,6 +96,9 @@
                     });
 
                     packLayout(rootNode);
+
+                    var boxWidth = coordinates.Freq[a] * 10;
+                    var boxHeight = coordinates.Freq[a] * 10;
                     var svgElem = document.createElementNS(xmlns, "svg");
                     svgElem.setAttributeNS(null, "viewBox", "0 0 " + boxWidth + " " + boxHeight);
                     svgElem.setAttributeNS(null, "width", boxWidth);
@@ -109,8 +111,9 @@
 
                     var g = document.createElementNS(xmlns, "g");
                     svgElem.appendChild(g);
+
                     document.body.appendChild(svgElem);
-                    d3.select('#Theme' + a + ' g')
+                    var node = d3.select('#Theme' + a + ' g')
                         .selectAll('circle')
                         .data(rootNode.descendants())
                         .enter()
@@ -125,23 +128,31 @@
                         .attr('r', function(d) {
                             return d.r;
                         })
+
+                    node.append("title")
+                        .text(function(d) {
+                            console.log(d.data.name);
+                            return d.data.name;
+                        });
+
                 }
                 console.log(arrayJson);
-                /* 
-                             var myLine = new LeaderLine(
-                               document.getElementById('a1'),
-                               document.getElementById('a2'),{
+            }
+            /* 
+                         var myLine = new LeaderLine(
+                           document.getElementById('a1'),
+                           document.getElementById('a2'),{
+                         startPlug: 'disc',
+                         endPlug: 'disc'
+                       });
+
+                        var myLine2 = new LeaderLine(
+                           document.getElementById('a1'),
+                           document.getElementById('a3'),{
                              startPlug: 'disc',
                              endPlug: 'disc'
-                           });
-
-                            var myLine2 = new LeaderLine(
-                               document.getElementById('a1'),
-                               document.getElementById('a3'),{
-                                 startPlug: 'disc',
-                                 endPlug: 'disc'
-                                 }
-                           );  */
+                             }
+                       );  */
     </script>
 </body>
 
